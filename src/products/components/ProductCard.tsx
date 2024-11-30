@@ -9,8 +9,8 @@ export const ProductCard = () => {
       <div className="w-full md:w-1/3 bg-white grid place-items-center">
         <Image src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
           alt="tailwind logo"
-          width={300}
-          height={400}
+          width={200}
+          height={230}
           className="rounded-xl p-5 sm:p-0 bg-white" />
       </div>
       <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
