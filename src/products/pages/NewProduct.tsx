@@ -11,7 +11,18 @@ interface FormInputs {
 
 export const NewProduct = () => {
 
-  const { control, handleSubmit } = useForm<FormInputs>({});
+
+  const { control, handleSubmit, watch } = useForm<FormInputs>({
+    defaultValues: {
+      title: "Lentes",
+      price: 85,
+      description: "lentes necesarios para trabajar en computadoras",
+      category: "men's clothing",
+      image: "https://tonybernard.store/wp-content/uploads/2023/11/Diseno-sin-titulo-2023-11-28T122127.046.png"
+    }
+  });
+
+  const newImage = watch('image');
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
@@ -42,7 +53,7 @@ export const NewProduct = () => {
               name="price"
               rules={{ required: true }}
               render={({ field }) => (
-                <Input value={field.value?.toString()} onChange={field.onChange} className="mt-2" type="number" label="Precio del producto" />
+                <Input value={field.value?.toString()} onChange={(ev) => field.onChange( +ev.target.value )} className="mt-2" type="number" label="Precio del producto" />
               )}
             />
 
@@ -89,7 +100,7 @@ export const NewProduct = () => {
           }}>
 
             <Image
-              src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
+              src={ newImage }
             />
           </div>
 
