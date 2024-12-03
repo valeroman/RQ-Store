@@ -1,5 +1,7 @@
 import { Button, Image, Input, Textarea } from "@nextui-org/react";
+import { useMutation } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { productActions } from "..";
 
 interface FormInputs {
   title: string;
@@ -11,6 +13,10 @@ interface FormInputs {
 
 export const NewProduct = () => {
 
+  const productMutation = useMutation({
+    mutationFn: productActions.createProduct,
+    onSuccess: () => { console.log('Producto creado')}
+  });
 
   const { control, handleSubmit, watch } = useForm<FormInputs>({
     defaultValues: {
@@ -25,7 +31,7 @@ export const NewProduct = () => {
   const newImage = watch('image');
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
+    productMutation.mutate(data);
   }
 
 
@@ -53,7 +59,7 @@ export const NewProduct = () => {
               name="price"
               rules={{ required: true }}
               render={({ field }) => (
-                <Input value={field.value?.toString()} onChange={(ev) => field.onChange( +ev.target.value )} className="mt-2" type="number" label="Precio del producto" />
+                <Input value={field.value?.toString()} onChange={(ev) => field.onChange(+ev.target.value)} className="mt-2" type="number" label="Precio del producto" />
               )}
             />
 
@@ -91,7 +97,14 @@ export const NewProduct = () => {
 
 
             <br />
-            <Button type="submit" className="mt-2" color="primary">Crear</Button>
+            <Button
+              type="submit"
+              className="mt-2"
+              color="primary"
+              isDisabled={ productMutation.isPending }
+            >
+              { productMutation.isPending ? 'Cargando...' : 'Crear producto'}
+            </Button>
           </div>
 
           <div className="bg-white rounded-2xl p-10 flex items-center" style={{
@@ -100,7 +113,7 @@ export const NewProduct = () => {
           }}>
 
             <Image
-              src={ newImage }
+              src={newImage}
             />
           </div>
 
