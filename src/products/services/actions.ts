@@ -6,7 +6,7 @@ interface GetProductOpction {
     filterKey?: string;
 };
 
-const sleep = ( seconds: number ):Promise<boolean> => {
+export const sleep = ( seconds: number ):Promise<boolean> => {
     return new Promise( resolve => {
         setTimeout(() => {
             resolve( true );
@@ -16,7 +16,7 @@ const sleep = ( seconds: number ):Promise<boolean> => {
 
 export const getProducts = async ({ filterKey }: GetProductOpction): Promise<Product[]> => {
 
-    await sleep(2);
+    //await sleep(2);
     
     const filterUrl = ( filterKey ) ? `category=${ filterKey }` : '';
     
@@ -44,7 +44,7 @@ export interface ProductLike {
 }
 
 export const createProduct = async ( product: ProductLike ) => {
-    await sleep(2);
+    //await sleep(2);
 
     const { data } = await productApi.post<Product>( `/products`, product );
     return data;
