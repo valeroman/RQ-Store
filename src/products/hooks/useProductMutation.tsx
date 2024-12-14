@@ -55,6 +55,21 @@ export const useProductMutation = () => {
             )
 
         },
+
+        onError: ( error, variables, context ) => {
+            console.log({error, variables, context});
+
+            queryClient.setQueryData<Product[]>(
+                ['products', { filterKey: variables.category }],
+                (old) => {
+                    if ( !old ) return [];
+
+                    return old.filter((cacheProduct) => {
+                        return cacheProduct.id !== context?.optimisticProduct.id
+                    });
+                }
+            )
+        }
     });
 
 
